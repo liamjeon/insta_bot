@@ -3,6 +3,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import random
+import numpy as np
+import pandas as pd
+
 
 rand_tag = ['홈스타그램', '인테리어소품', '집꾸미기', '신혼', '신혼집', '공간',
             '이사', '집들이', '집들이선물', '홈스타일링', '신혼가구', '홈데코', '홈인테리어',
@@ -94,20 +97,29 @@ def scroll():
     last_ht, ht = 0, 1
     while last_ht != ht:
         last_ht = ht
-        time.sleep(1)
+        time.sleep(2.5)
         ht = driver.execute_script("""
             arguments[0].scrollTo(0, arguments[0].scrollHeight); 
             return arguments[0].scrollHeight;
             """, scroll_box)
 
     time.sleep(2)
-    following_list = []
-    for x in range(1, 4200):  
+    #Follow List를 읽어옴
+    print('팔로우를 읽어 옵니다.')
+    print(number_of_following)
+    follower_list = []
+    for x in range(1, 1900):  
+        print('스크롤')
         username = driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div[2]/ul/div/li['+str(x)+']/div/div[1]/div[2]/div[1]/span/a/span')
-        print(username.get_attribute("innerHTML")) 
-        following_list.append(username.get_attribute("innerHTML"))
+        # print(username.get_attribute("innerHTML")) 
+        follower_list.append(username.get_attribute("innerHTML"))
+
+    print('리스트 파일 출력')
+    arr = np.array(follower_list)
+    df = pd.DataFrame(arr)
+    df.to_csv('follower_list_maumio_store.csv', index=False)
 
 init()
 login()
-enterId('shine_onyou')
+enterId('maumio_store')
 scroll()
