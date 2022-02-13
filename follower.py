@@ -27,7 +27,7 @@ def init():
 def login():
     # ID = 'the.lazuli.official@gmail.com'
     # PW = 'lazulilove1!'
-    ID = 'ikhyun706@gmail.com'
+    ID = 'ikhyun709@gmail.com'
     PW = 'roejddl1'
 
     # 화면 띄우기
@@ -88,28 +88,31 @@ def enterId(insta_id):
     #프로필에서 팔로워 클릭
     click_follower = driver.find_element_by_css_selector('#react-root > section > main > div > header > section > ul > li:nth-child(2) > a > div')
     click_follower.click()
-    time.sleep(1)
+    time.sleep(6)
 
 
 def scroll():
     # 스크롤 높이 가져옴
     scroll_box = driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div[2]')
     last_ht, ht = 0, 1
+    num = 0;
     while last_ht != ht:
+        print('스크롤')
         last_ht = ht
-        time.sleep(2.5)
+        time.sleep(5)
         ht = driver.execute_script("""
             arguments[0].scrollTo(0, arguments[0].scrollHeight); 
             return arguments[0].scrollHeight;
             """, scroll_box)
+        num +=1
+        if(num == 180): break
 
     time.sleep(2)
     #Follow List를 읽어옴
     print('팔로우를 읽어 옵니다.')
     print(number_of_following)
     follower_list = []
-    for x in range(1, 1900):  
-        print('스크롤')
+    for x in range(2, 1500):  
         username = driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div[2]/ul/div/li['+str(x)+']/div/div[1]/div[2]/div[1]/span/a/span')
         # print(username.get_attribute("innerHTML")) 
         follower_list.append(username.get_attribute("innerHTML"))
@@ -117,7 +120,7 @@ def scroll():
     print('리스트 파일 출력')
     arr = np.array(follower_list)
     df = pd.DataFrame(arr)
-    df.to_csv('follower_list_maumio_store.csv', index=False)
+    df.to_csv('follower_list.csv', index=False)
 
 init()
 login()
