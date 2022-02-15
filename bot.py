@@ -22,9 +22,9 @@ def init():
     global count_like, count_follow, max_follow, max_like
     count_like = 0
     count_follow = 0
-    max_follow = 10
+    max_follow = 5
     # 좋아요 개수 랜덤
-    max_like = random.randrange(150, 200)
+    max_like = random.randrange(90,100)
     print('좋아요 누를 개수는 {}개'.format(max_like))
     # 해시 태그 선택
     insta_tag = random.choice(rand_tag)
@@ -32,11 +32,11 @@ def init():
 
 
 def login():
-    ID = 'ikhyun709@gmail.com'
-    PW = 'roejddl1'
+    # ID = 'ikhyun709@gmail.com'
+    # PW = 'roejddl1'
 
-    # ID = 'the.lazuli.official@gmail.com'
-    # PW = 'lazulilove1!'
+    ID = 'the.lazuli.official@gmail.com'
+    PW = 'lazulilove1!'
 
     # 화면 띄우기
     driver.get('https://instagram.com')
@@ -66,8 +66,8 @@ def login():
         later_btn.click()
     except:
         print('Element 를 찾을 수 없어요')
-        print('페이지 종료 후 다시 열기')
-        login()
+        # print('페이지 종료 후 다시 열기')
+        # login()
 
         
 
@@ -261,7 +261,7 @@ def bot():
             enterId(id)
             print('팔로우로 정했다')
             if(click_follow()):
-                time.sleep(random.randrange(2,4))
+                time.sleep(random.randrange(22,24))
                 count_follow += 1
                 print('지금까지 {}번 팔로우 했습니다.'.format(count_follow))
                 print('남은 팔로우 수 : {}'.format(max_follow-count_follow))
@@ -291,7 +291,7 @@ def bot():
                 print('피드가 없습니다')
 
         print('잠시대기')
-        time.sleep(random.randrange(4,8))
+        time.sleep(random.randrange(20,24))
         print('-------------------------------------')
         count_bot +=1
         print('{}번째 시도입니다.'.format(count_bot))
