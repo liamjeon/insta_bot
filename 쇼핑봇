@@ -1,0 +1,74 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+import urllib.request
+
+driver = webdriver.Chrome()
+driver.get("https://search.shopping.naver.com/allmall")
+elem = driver.find_element_by_css_selector(".mallFilter_input_search__2WrTv")
+elem.send_keys("카메라")
+elem.send_keys(Keys.RETURN)
+time.sleep(2)
+
+
+# SCROLL_PAUSE_TIME = 0.3
+# # Get scroll height
+# last_height = driver.execute_script("return document.body.scrollHeight")
+# while True:
+#     # Scroll down to bottom
+#     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+#     # Wait to load page
+#     time.sleep(SCROLL_PAUSE_TIME)
+#     # Calculate new scroll height and compare with last scroll height
+#     new_height = driver.execute_script("return document.body.scrollHeight")
+#     if new_height == last_height:
+#         break
+    
+#     last_height = new_height
+
+
+time.sleep(1)
+stores = driver.find_elements_by_css_selector(".mallListItem_main_info__3H9xh")
+count = 0
+for store in stores:
+    try:
+        name = store.find_element_by_css_selector('.mallListItem_title__3sJnY').text
+        desc = store.find_element_by_css_selector('.mallListItem_desc__18gRh').text
+        try:
+            try:
+                grade = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[2]/span[1]').text
+                try:
+                    #등급O 찜O
+                    zim = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[2]/span[2]').text
+                    cg = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[3]/span[1]').text
+                    totalItem = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[3]/span[2]').text
+                except:
+                    pass
+            except:
+                try:
+                    #등급X 찜O
+                    zim = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[2]/span[2]').text
+                    grade = '등급X'
+                    cg = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[3]/span[1]').text
+                    totalItem = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[3]/span[2]').text
+                except:
+                    #등급X 찜X
+                    grade = '등급X'
+                    zim = '찜X';
+                    cg = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[2]/span[1]').text
+                    totalItem = store.find_element_by_xpath('/html/body/div/div/div[2]/div[4]/ul/li['+str(count)+']/a/div/div[2]/div[2]/span[2]').text
+            
+            print(str(count) + '  ' + name + '  ' + cg + '  '+ grade + '  ' + zim + '  ' + totalItem)
+            count = count + 1
+        except:
+            print('뭔가에러')
+            count = count + 1
+            pass
+
+    except:
+        
+        pass
+    
+
+
+# driver.close()
